@@ -13,13 +13,17 @@
       <span class="danmaku-message">&nbsp;×&nbsp;</span>
       <span class="danmaku-gift-num">{{ num }}</span>
     </div>
-    <div v-else-if="type === 'sc'" class="danmaku-content">
-      <span class="danmaku-message">感谢&nbsp;</span>
-      <span class="danmaku-author-name">{{ uname }}</span>
-      <span class="danmaku-message">&nbsp;的SC：{{ message }}</span>
-    </div>
     <div v-else-if="type === 'info'" class="danmaku-content">
       <span class="danmaku-message">{{ message }}</span>
+    </div>
+  </div>
+  <div v-if="type === 'sc'" class="danmaku-sc" :class="{ hidden: scHidden }">
+    <div class="danmaku-sc-content">
+      <img v-if="showFace" class="danmaku-sc-author-face" :src="face" />
+      <div class="danmaku-content">
+        <span class="danmaku-sc-author-name with-colon" :class="{ anchor: isAnchor, owner: isOwner }">{{ uname }}</span>
+        <span class="danmaku-sc-message">{{ message }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +52,7 @@ export default {
   },
   setup(props) {
     const hidden = ref(false);
+    const scHiddenRef = ref(false);
     const needRemoved = ref(false);
     if (props.stay) {
       const stayTimeout = setTimeout(() => {
@@ -58,13 +63,24 @@ export default {
       }, props.stay);
       onBeforeUnmount(() => clearTimeout(stayTimeout));
     }
+
+    setTimeout(() => {
+      scHiddenRef.value = true;
+    }, 30000);
+
     const isHidden = computed(() => props.hidden || hidden.value);
-    return { ...toRefs(props), isHidden, needRemoved };
+    const scHidden = computed(() => scHiddenRef.value)
+    return { ...toRefs(props), isHidden, scHidden, needRemoved };
   },
 };
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url(../assets/font/HarmonyOS_Sans_SC_Medium.woff) format('woff');
+}
+
 @keyframes danmakuIn {
   from {
     transform: translateX(30px);
@@ -75,30 +91,43 @@ export default {
     opacity: 1;
   }
 }
+
+@keyframes scIn {
+  from {
+    transform: translateY(150px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .danmaku {
   &-item {
+    width: 300px;
     padding: 4px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     transition: opacity 0.5s;
+    margin-bottom: 20px;
     user-select: none;
-    text-shadow: -2px -2px #000000, -2px -1px #000000, -2px 0 #000000, -2px 1px #000000, -2px 2px #000000,
-      -1px -2px #000000, -1px -1px #000000, -1px 0 #000000, -1px 1px #000000, -1px 2px #000000, 0 -2px #000000,
-      0 -1px #000000, 0 0 #000000, 0 1px #000000, 0 2px #000000, 1px -2px #000000, 1px -1px #000000, 1px 0 #000000,
-      1px 1px #000000, 1px 2px #000000, 2px -2px #000000, 2px -1px #000000, 2px 0 #000000, 2px 1px #000000,
-      2px 2px #000000;
-    animation: 0.5s danmakuIn;
+    animation: 0.4s danmakuIn;
     opacity: 1;
     &.hidden {
       opacity: 0;
     }
+
+    span {
+      word-wrap: break-word;
+    }
   }
   &-author-face {
-    width: 24px;
-    height: 24px;
-    border-radius: 24px;
-    margin-right: 6px;
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    margin-right: 10px;
     display: inline-block;
     pointer-events: none;
   }
@@ -107,7 +136,7 @@ export default {
     align-self: center;
   }
   &-author-name {
-    color: #8cd9ff;
+    color: #a0a0a0;
     &.with-colon::after {
       content: '：';
       margin-left: 2px;
@@ -123,28 +152,93 @@ export default {
   }
   &-message,
   &-gift-num {
-    color: #fff;
+    color: #000;
   }
   &-gift-name {
     color: #eb76ff;
   }
   &-message {
-    font-family: 'Imprima', 'Microsoft YaHei';
+    font-family: 'HarmonyOS Sans SC';
     font-size: 18px;
     line-height: 18px;
   }
   &-gift-num {
-    font-family: 'Imprima', 'Microsoft YaHei';
-    font-size: 20px;
-    line-height: 20px;
-    font-weight: 500;
+    font-family: 'HarmonyOS Sans SC';
+    font-size: 18px;
+    line-height: 18px;
   }
   &-author-name,
   &-gift-name {
-    font-family: 'Changa One', 'Microsoft YaHei';
-    font-size: 20px;
-    line-height: 20px;
-    font-weight: 500;
+    font-family: 'HarmonyOS Sans SC';
+    font-size: 18px;
+    line-height: 18px;
+  }
+
+  &-sc {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    animation: 0.4s scIn;
+    transition: opacity 0.5s;
+
+    &.hidden {
+      opacity: 0;
+    }
+
+    span {
+      word-wrap: break-word;
+    }
+
+    &-content {
+      width: 100%;
+      border: 2px solid #f4fdfa ;
+      border-radius: 10px;
+
+      display: flex;
+      // flex-direction: row;
+      align-items: center;
+
+      width: 300px;
+      height: 100px;
+      padding: 10px;
+
+      margin-bottom: 20px;
+      user-select: none;
+
+      background: #5da2ff;
+      border-radius: 10px;
+
+      opacity: 1;
+    }
+
+    &-author-face {
+      width: 36px;
+      height: 36px;
+      border-radius: 36px;
+      margin-right: 10px;
+      display: inline-block;
+      pointer-events: none;
+
+      border: 4px solid #fff;
+      box-shadow: 0 0 2px 2px #000 inset;
+    }
+
+    &-author-name {
+      color: #b6d7ff;
+      &.with-colon::after {
+        content: '：';
+        margin-left: 2px;
+      }
+    }
+
+    &-message {
+      font-family: 'HarmonyOS Sans SC';
+      font-size: 18px;
+      line-height: 18px;
+      color: #fff;
+    }
   }
 }
 </style>
