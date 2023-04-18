@@ -18,11 +18,23 @@
     </div>
   </div>
   <div v-if="type === 'sc'" class="danmaku-sc" :class="{ hidden: scHidden }">
-    <div class="danmaku-sc-content">
-      <img v-if="showFace" class="danmaku-sc-author-face" :src="face" />
-      <div class="danmaku-content">
-        <span class="danmaku-sc-author-name with-colon" :class="{ anchor: isAnchor, owner: isOwner }">{{ uname }}</span>
-        <span class="danmaku-sc-message">{{ message }}</span>
+    <div class="danmaku-sc-card">
+      <div class="danmaku-sc-content">
+        <div class="danmaku-sc-content-div">
+          <img v-if="showFace" class="danmaku-sc-author-face" :src="face" />
+          <div class="danmaku-content">
+            <span class="danmaku-sc-author-name with-colon" :class="{ anchor: isAnchor, owner: isOwner }">{{ uname }}</span>
+            <span class="danmaku-sc-message">{{ message }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="danmaku-sc-progress">
+        <div class="danmaku-sc-progress-new">
+          <span>NEW</span>
+        </div>
+        <div class="danmaku-sc-progress-click">
+          <span>点击回复此条超级留言</span>
+        </div>
       </div>
     </div>
   </div>
@@ -189,28 +201,75 @@ export default {
 
     span {
       word-wrap: break-word;
+      font-family: 'HarmonyOS Sans SC';
     }
 
-    &-content {
+    &-card {
       width: 100%;
-      border: 2px solid #f4fdfa ;
-      border-radius: 10px;
-
       display: flex;
-      // flex-direction: row;
-      align-items: center;
-
-      width: 300px;
-      height: 100px;
-      padding: 10px;
+      justify-content: space-between;
+      // align-items: center;
+      border: 2px solid #f4fdfa ;
+      flex-direction: column;
+      border-radius: 10px;
 
       margin-bottom: 20px;
       user-select: none;
 
       background: #5da2ff;
-      border-radius: 10px;
+
+      width: 300px;
+      height: 120px;
 
       opacity: 1;
+
+      overflow: hidden;
+    }
+
+    &-content {
+      width: 100%;
+
+      &-div {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        // justify-content: center;
+        padding: 10px;
+      }
+    }
+
+    &-progress {
+      width: 100%;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      background: #2869BB;
+
+      &-new {
+        margin-left: 15px;
+        border-radius: 15px;
+        background: #F46867;
+        padding: 0 2px;
+
+        span {
+          color: #fff;
+          font-size: 14px;
+          // line-height: 14px;
+        }
+      }
+
+      &-click {
+        margin-left: 6px;
+
+        span {
+          font-size: 14px;
+          line-height: 14px;
+          color: #93C8FF;
+          font-style: italic;
+        }
+      }
     }
 
     &-author-face {
