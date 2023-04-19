@@ -23,12 +23,15 @@
         <div class="danmaku-sc-content-div">
           <img v-if="showFace" class="danmaku-sc-author-face" :src="face" />
           <div class="danmaku-content">
-            <span class="danmaku-sc-author-name with-colon" :class="{ anchor: isAnchor, owner: isOwner }">{{ uname }}</span>
+            <span class="danmaku-sc-author-name with-colon" :class="{ anchor: isAnchor, owner: isOwner }">{{
+              uname
+            }}</span>
             <span class="danmaku-sc-message">{{ message }}</span>
           </div>
         </div>
       </div>
       <div class="danmaku-sc-progress">
+        <div class="loading" />
         <div class="danmaku-sc-progress-new">
           <span>NEW</span>
         </div>
@@ -78,10 +81,10 @@ export default {
 
     setTimeout(() => {
       scHiddenRef.value = true;
-    }, 30000);
+    }, 15 * 1000);
 
     const isHidden = computed(() => props.hidden || hidden.value);
-    const scHidden = computed(() => scHiddenRef.value)
+    const scHidden = computed(() => scHiddenRef.value);
     return { ...toRefs(props), isHidden, scHidden, needRemoved };
   },
 };
@@ -113,6 +116,34 @@ export default {
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+@keyframes loading {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-300px);
+  }
+}
+
+.loading {
+  --background-color: #4C92F2;
+  --front-color: #3C86E7;
+
+  position: absolute;
+
+  animation: loading 15s linear forwards;
+
+  z-index: 1;
+
+  background-color: var(--background-color);
+  background-image: linear-gradient(120deg, var(--front-color) 35%, transparent 40%, transparent 55%, var(--front-color) 40%);
+  background-repeat: repeat;
+  background-size: 20px auto;
+  overflow: hidden;
+  width: 100%;
+  height: 30px;
 }
 
 .danmaku {
@@ -205,7 +236,6 @@ export default {
     }
 
     &-card {
-      width: 100%;
       display: flex;
       justify-content: space-between;
       // align-items: center;
@@ -247,11 +277,17 @@ export default {
       border-bottom-right-radius: 10px;
       background: #2869BB;
 
+      position: relative;
+
+      overflow: hidden;
+
       &-new {
         margin-left: 15px;
         border-radius: 15px;
         background: #F46867;
         padding: 0 2px;
+
+        z-index: 3;
 
         span {
           color: #fff;
@@ -263,11 +299,14 @@ export default {
       &-click {
         margin-left: 6px;
 
+        z-index: 3;
+
         span {
           font-size: 14px;
           line-height: 14px;
           color: #93C8FF;
           font-style: italic;
+          font-weight: 300;
         }
       }
     }
