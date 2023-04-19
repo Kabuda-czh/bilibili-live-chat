@@ -128,8 +128,8 @@ export default {
 }
 
 .loading {
-  --background-color: #4C92F2;
-  --front-color: #3C86E7;
+  --background-color: #4c92f2;
+  --front-color: #3c86e7;
 
   position: absolute;
 
@@ -138,7 +138,13 @@ export default {
   z-index: 1;
 
   background-color: var(--background-color);
-  background-image: linear-gradient(120deg, var(--front-color) 35%, transparent 40%, transparent 55%, var(--front-color) 40%);
+  background-image: linear-gradient(
+    120deg,
+    var(--front-color) 35%,
+    transparent 40%,
+    transparent 55%,
+    var(--front-color) 40%
+  );
   background-repeat: repeat;
   background-size: 20px auto;
   overflow: hidden;
@@ -148,7 +154,8 @@ export default {
 
 .danmaku {
   &-item {
-    width: 300px;
+    // width: 300px;
+    margin-left: 20px;
     padding: 4px;
     display: flex;
     flex-direction: row;
@@ -202,19 +209,19 @@ export default {
   }
   &-message {
     font-family: 'HarmonyOS Sans SC';
-    font-size: 18px;
-    line-height: 18px;
+    font-size: 20px;
+    line-height: 20px;
   }
   &-gift-num {
     font-family: 'HarmonyOS Sans SC';
-    font-size: 18px;
-    line-height: 18px;
+    font-size: 20px;
+    line-height: 20px;
   }
   &-author-name,
   &-gift-name {
     font-family: 'HarmonyOS Sans SC';
-    font-size: 18px;
-    line-height: 18px;
+    font-size: 20px;
+    line-height: 20px;
   }
 
   &-sc {
@@ -239,16 +246,18 @@ export default {
       display: flex;
       justify-content: space-between;
       // align-items: center;
-      border: 2px solid #f4fdfa ;
+      border: 2px solid #f4fdfa;
       flex-direction: column;
       border-radius: 10px;
 
-      margin-bottom: 20px;
+      margin-bottom: 5px;
+      margin-left: 5px;
+      margin-right: 5px;
       user-select: none;
 
       background: #5da2ff;
 
-      width: 300px;
+      // width: 400px;
       height: 120px;
 
       opacity: 1;
@@ -275,7 +284,7 @@ export default {
       align-items: center;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
-      background: #2869BB;
+      background: #2869bb;
 
       position: relative;
 
@@ -284,7 +293,7 @@ export default {
       &-new {
         margin-left: 15px;
         border-radius: 15px;
-        background: #F46867;
+        background: #f46867;
         padding: 0 2px;
 
         z-index: 3;
@@ -304,7 +313,7 @@ export default {
         span {
           font-size: 14px;
           line-height: 14px;
-          color: #93C8FF;
+          color: #93c8ff;
           font-style: italic;
           font-weight: 300;
         }
