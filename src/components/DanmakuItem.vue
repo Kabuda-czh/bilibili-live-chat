@@ -209,19 +209,19 @@ export default {
   }
   &-message {
     font-family: 'HarmonyOS Sans SC';
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 22px;
+    line-height: 22px;
   }
   &-gift-num {
     font-family: 'HarmonyOS Sans SC';
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 22px;
+    line-height: 22px;
   }
   &-author-name,
   &-gift-name {
     font-family: 'HarmonyOS Sans SC';
-    font-size: 20px;
-    line-height: 20px;
+    font-size: 22px;
+    line-height: 22px;
   }
 
   &-sc {
@@ -342,8 +342,8 @@ export default {
 
     &-message {
       font-family: 'HarmonyOS Sans SC';
-      font-size: 18px;
-      line-height: 18px;
+      font-size: 22px;
+      line-height: 22px;
       color: #fff;
     }
   }
